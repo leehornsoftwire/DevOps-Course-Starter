@@ -57,9 +57,10 @@ class Items:
         session["_next_item_id"] = self._next_item_id
 
     def load() -> Optional[Items]:
-        next_item_id = int(session.get("_next_item_id"))
-        if next_item_id is None:
+        next_item_id_as_string = session.get("_next_item_id")
+        if next_item_id_as_string is None:
             return None
+        next_item_id = int(next_item_id_as_string)
         items_by_id_as_strings: Dict[str, Dict[str, str]] = session.get("_items_by_id")
         items_by_id = {}
         for key, value in items_by_id_as_strings.items():
