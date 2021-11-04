@@ -11,8 +11,30 @@
     <div class="col-md-12">
       <h2>Items</h2>
       <ul class="list-group mb-4">
-        <!-- List the todo items here -->
+        {% for id, item in items %}
+          <li>{{ item.title }} - {{ item.status }}</li>
+          {% if item.status != "Completed" %}
+            <form action="/items/complete" method="post">
+              <input type="hidden" name="id" value={{ id }}>
+              <input type="submit" value="Complete">
+            </form>
+          {% else %}
+          <form action="/items/uncomplete" method="post">
+            <input type="hidden" name="id" value={{ id }}>
+            <input type="submit" value="Uncomplete">
+          </form>
+          {% endif %}
+          <form action="/items/delete" method="post">
+            <input type="hidden" name="id" value={{ id }}>
+            <input type="submit" value="Delete">
+          </form>
+        {% endfor %}
       </ul>
     </div>
   </div>
+  <form action="/items/new" method="post">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <input type="submit" value="Add">
+  </form>
 {% endblock %}
