@@ -13,16 +13,20 @@ app.config.from_object(Config())
 SESSION_BACKEND = "Session"
 TRELLO_BACKEND = "Trello"
 
+
 def clear_session_data():
     keys = list(session.keys())
     for key in keys:
         session.pop(key)
 
+
 def get_item_backend_name():
     return session.get("ItemBackend") or SESSION_BACKEND
 
+
 def set_item_backend(to: str):
     session["ItemBackend"] = to
+
 
 def get_item_backend():
     specified_backend = get_item_backend_name()
@@ -33,10 +37,14 @@ def get_item_backend():
     else:
         raise ValueError("Unknown backend")
 
+
 @app.route("/")
 def index():
     items = get_item_backend().get_items()
-    return render_template("index.html", items=items, item_backend=get_item_backend_name())
+    return render_template(
+        "index.html", items=items, item_backend=get_item_backend_name()
+    )
+
 
 @app.route("/switchbackend", methods=["POST"])
 def switch_backend():
@@ -46,6 +54,7 @@ def switch_backend():
     else:
         set_item_backend(SESSION_BACKEND)
     return redirect("/")
+
 
 @app.route("/items/new", methods=["POST"])
 def add_item_route():

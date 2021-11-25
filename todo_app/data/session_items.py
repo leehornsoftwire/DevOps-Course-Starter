@@ -9,10 +9,11 @@ from todo_app.data.items_backend import Item, ItemsBackend
 
 
 def save_after(func):
-    def func_and_save(self, *args,**kwargs):
+    def func_and_save(self, *args, **kwargs):
         result = func(self, *args, **kwargs)
         self.save()
         return result
+
     return func_and_save
 
 
@@ -36,7 +37,7 @@ class SessionItems(ItemsBackend):
     @save_after
     def delete_item(self, id: str) -> Optional[Item]:
         return self._items_by_id.pop(id)
-    
+
     @save_after
     def complete_item(self, id: str):
         self._items_by_id[id].status = "DONE"
@@ -59,7 +60,3 @@ class SessionItems(ItemsBackend):
         for key, value in items_by_id_as_strings.items():
             items_by_id[key] = Item(value["status"], value["title"])
         return SessionItems(items_by_id=items_by_id, next_item_id=next_item_id)
-    
-
-
-
