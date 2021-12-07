@@ -1,7 +1,6 @@
 from __future__ import annotations
-
-from dataclasses import dataclass
-from typing import Callable, Dict, Optional
+from functools import wraps
+from typing import Dict, Optional
 
 from flask import session
 
@@ -9,6 +8,7 @@ from todo_app.data.items_backend import Item, ItemsBackend
 
 
 def save_after(func):
+    @wraps(func)
     def func_and_save(self, *args, **kwargs):
         result = func(self, *args, **kwargs)
         self.save()
@@ -50,13 +50,14 @@ class SessionItems(ItemsBackend):
         session["_items_by_id"] = self._items_by_id
         session["_next_item_id"] = self._next_item_id
 
-    def load() -> ItemsBackend:
+    @classmethod
+    def load(cls) -> ItemsBackend:
         next_item_id_as_string = session.get("_next_item_id")
         if next_item_id_as_string is None:
-            return SessionItems({}, 0)
+            return cls({}, 0)
         next_item_id = int(next_item_id_as_string)
         items_by_id_as_strings: Dict[str, Dict[str, str]] = session.get("_items_by_id")
         items_by_id = {}
         for key, value in items_by_id_as_strings.items():
             items_by_id[key] = Item(value["status"], value["title"])
-        return SessionItems(items_by_id=items_by_id, next_item_id=next_item_id)
+        return cls(items_by_id=items_by_id, next_item_id=next_item_id)

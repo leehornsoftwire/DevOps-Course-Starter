@@ -1,25 +1,25 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 
 import requests
 
 from todo_app.data.items_backend import Item, ItemsBackend
 
-APP_TOKEN = "e7484da444a424b051ef7b0e0803de690b3242cdfd55137f9269894a8095adbd"
+APP_TOKEN = os.environ["TRELLO_TOKEN"]
 KEY = os.environ["TRELLO_KEY"]
-BOARD_ID = "iFh8nAOF"
+BOARD_ID = os.environ["TRELLO_BOARD"]
 BASE_URL = "https://api.trello.com/1"
 
 COMMON_PARAMS = {"token": APP_TOKEN, "key": KEY}
 
 
 class TrelloItems(ItemsBackend):
-    def load() -> ItemsBackend:
-        return TrelloItems()
+    @classmethod
+    def load(cls) -> ItemsBackend:
+        return cls()
 
     def get_items(self) -> Dict[str, Item]:
         params = COMMON_PARAMS
@@ -70,7 +70,7 @@ def get_list_id_by_name(name: str):
     for list in lists_as_json:
         if list["name"] == name:
             return list["id"]
-    raise ValueError(f"No board with name {name} found!")
+    raise ValueError(f"No list with name {name} found!")
 
 
 def send_item_to_list(id: str, list_name: str):

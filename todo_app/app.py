@@ -79,7 +79,7 @@ def uncomplete_item_route():
 def delete_item_route():
     """
     To be properly REST-ful this should use the DELETE method,
-        but html forms can only send get and post - using post to keep things simple for now
+      but html forms can only send get and post - using post to keep things simple for now
     """
     get_item_backend().delete_item(request.form.get("id"))
     return redirect("/")
