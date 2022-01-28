@@ -50,3 +50,13 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+
+## Running the tests
+Requirements:
+ - e2e tests require geckodriver and Firefox installed and in PATH,
+    as well as valid Trello credentials set in .env
+How to run:
+ - unit tests: poetry run pytest tests/unit
+ - integration tests: poetry run pytest tests/integration
+ - e2e tests: poetry run behave

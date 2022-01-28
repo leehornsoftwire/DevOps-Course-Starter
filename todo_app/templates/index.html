@@ -1,6 +1,42 @@
 {% extends "layout.html" %}
 {% block title %}To-Do App{% endblock %}
 
+
+
+{% macro itemList(title, items) -%}
+  <div class="itemList">
+    <h3>{{ title }}</h3>
+    <ul class="list-group mb-4">
+      {% for id, item in items.items() %}
+        <li>
+          <div>
+            <div>{{ item.title}} - {{ item.status.value }}</div>
+            <form action="/items/setstatus" method="post">
+              <input type="hidden" name="id" value={{ id }}>
+              <input type="hidden" name="status" value="{{ view_model.Status.TODO.value }}">
+              <input type="submit" value="{{ view_model.Status.TODO.value }}">
+            </form>
+            <form action="/items/setstatus" method="post">
+              <input type="hidden" name="id" value={{ id }}>
+              <input type="hidden" name="status" value="{{ view_model.Status.DOING.value }}">
+              <input type="submit" value="{{ view_model.Status.DOING.value }}">
+            </form>
+            <form action="/items/setstatus" method="post">
+              <input type="hidden" name="id" value={{ id }}>
+              <input type="hidden" name="status" value="{{ view_model.Status.DONE.value }}">
+              <input type="submit" value="{{ view_model.Status.DONE.value }}">
+            </form>
+            <form action="/items/delete" method="post">
+              <input type="hidden" name="id" value={{ id }}>
+              <input type="submit" value="Delete">
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{%- endmacro %}
+
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
@@ -9,31 +45,16 @@
 
   <div class="row">
     <div class="col-md-12">
-      <body>Current item storage method: {{ item_backend }}</body> 
+      <body>Current item storage method: {{ view_model.get_item_backend_name() }}</body> 
       <form action="/switchbackend" method="post">
           <input type="submit" value="Switch backend">
       </form>
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {% for id, item in items.items() %}
-          <li>{{ item.title }} - {{ item.status }}</li>
-          {% if item.status != "DONE" %}
-            <form action="/items/complete" method="post">
-              <input type="hidden" name="id" value={{ id }}>
-              <input type="submit" value="Complete">
-            </form>
-          {% else %}
-          <form action="/items/uncomplete" method="post">
-            <input type="hidden" name="id" value={{ id }}>
-            <input type="submit" value="Uncomplete">
-          </form>
-          {% endif %}
-          <form action="/items/delete" method="post">
-            <input type="hidden" name="id" value={{ id }}>
-            <input type="submit" value="Delete">
-          </form>
-        {% endfor %}
-      </ul>
+      <div class="itemLists">
+        {{ itemList("To do", view_model.todo_items())}}
+        {{ itemList("Doing", view_model.doing_items())}}
+        {{ itemList("Done", view_model.done_items())}}
+      </div>
     </div>
   </div>
   <form action="/items/new" method="post">
