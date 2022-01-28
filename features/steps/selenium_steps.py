@@ -1,5 +1,3 @@
-from lib2to3.pgen2 import driver
-from time import sleep
 from behave import given, then, when
 from selenium import webdriver
 from selenium.webdriver.common.by import By

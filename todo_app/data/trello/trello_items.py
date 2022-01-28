@@ -1,15 +1,10 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
-import dataclasses
-from enum import Enum
-from multiprocessing.sharedctypes import Value
 
 import os
-from typing import Dict, List, Optional
+from dataclasses import dataclass
+from typing import Dict
+
 import more_itertools
-
-
-import requests
 
 from todo_app.data.items_backend import Item, ItemsBackend, Status
 from todo_app.data.trello.trello_request import TrelloRequest
@@ -45,7 +40,7 @@ class TrelloItems(ItemsBackend):
         return ret
 
     def create_missing_lists(self):
-        existing_lists = {l.name for l in self.get_lists().values()}
+        existing_lists = {list.name for list in self.get_lists().values()}
         required_lists = set(LIST_NAME_TO_STATUS.keys())
         to_add = required_lists.difference(existing_lists)
         for required_name in to_add:
@@ -60,7 +55,7 @@ class TrelloItems(ItemsBackend):
         return self.get_trello_request(f"boards/{self.board_id}").with_url(relative_url)
 
     def get_items(self) -> Dict[str, Item]:
-        cards_as_json = self.get_trello_request_for_board(f"cards").get().json()
+        cards_as_json = self.get_trello_request_for_board("cards").get().json()
         lists = self.get_lists()
         return items_from_json(lists, cards_as_json)
 

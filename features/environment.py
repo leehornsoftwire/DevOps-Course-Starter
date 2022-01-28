@@ -1,16 +1,16 @@
 import logging
-from multiprocessing import Process
 import os
-from threading import Thread
+from multiprocessing import Process
+
+import dotenv
 from behave import fixture, use_fixture
 from behave.fixture import use_fixture_by_tag
-import dotenv
-from todo_app.app import create_app
 from flask import Flask
+from selenium import webdriver
 
+from todo_app.app import create_app
 from todo_app.data.trello.trello_items import TrelloItems
 from todo_app.data.trello.trello_request import TrelloRequest
-from selenium import webdriver
 
 
 @fixture

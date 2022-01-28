@@ -1,15 +1,12 @@
 from typing import Dict
+
 import pytest
+
 from todo_app.data.items_backend import Item, Status
-from todo_app.data.trello.trello_items import (
-    LIST_NAME_TO_STATUS,
-    STATUS_TO_LIST_NAME,
-    TrelloItems,
-    TrelloList,
-    TrelloRequest,
-    items_from_json,
-    trello_lists_from_json,
-)
+from todo_app.data.trello.trello_items import (STATUS_TO_LIST_NAME,
+                                               TrelloItems, TrelloList,
+                                               TrelloRequest, items_from_json,
+                                               trello_lists_from_json)
 
 
 def test_load_environment(monkeypatch):

@@ -1,16 +1,16 @@
-from argparse import ArgumentError
-import json
 import re
+from argparse import ArgumentError
 from unittest.mock import MagicMock
+
 import dotenv
 import pytest
-
 import requests
+
 import todo_app.app
-from todo_app.data.items_backend import Item, Status
-from todo_app.data.trello.trello_items import STATUS_TO_LIST_NAME
 import todo_app.data.trello.trello_request
 from todo_app.app import create_app
+from todo_app.data.items_backend import Status
+from todo_app.data.trello.trello_items import STATUS_TO_LIST_NAME
 
 
 @pytest.fixture

@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
-from enum import Enum, auto
-from typing import Dict, Optional
+from enum import Enum
+from typing import Dict
 
 
 class Status(Enum):

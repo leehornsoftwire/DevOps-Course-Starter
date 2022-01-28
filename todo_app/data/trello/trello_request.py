@@ -1,7 +1,9 @@
 from __future__ import annotations
-from dataclasses import dataclass
+
 import dataclasses
+from dataclasses import dataclass
 from typing import Dict
+
 import requests
 
 BASE_URL = "https://api.trello.com/1"

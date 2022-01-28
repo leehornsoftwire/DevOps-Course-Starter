@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request
 from flask.globals import session
 from werkzeug.utils import redirect
+
 from todo_app.data.items_backend import Item, ItemsBackend, Status
 from todo_app.data.session_items import SessionItems
-
 from todo_app.data.trello.trello_items import TrelloItems
 from todo_app.flask_config import Config
 from todo_app.view_model import ViewModel
-
 
 SESSION_BACKEND = "Session"
 TRELLO_BACKEND = "Trello"
