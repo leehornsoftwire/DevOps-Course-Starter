@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from functools import wraps
 from typing import Dict, Optional
 
 from flask import session
 
-from todo_app.data.items_backend import Item, ItemsBackend
+from todo_app.data.items_backend import Item, ItemsBackend, Status
 
 
 def save_after(func):
@@ -25,6 +26,9 @@ class SessionItems(ItemsBackend):
         self._items_by_id = items_by_id
         self._next_item_id = next_item_id
 
+    def get_name(self) -> str:
+        return "Session"
+
     def get_items(self) -> Dict[str, Item]:
         return self._items_by_id
 
@@ -39,15 +43,14 @@ class SessionItems(ItemsBackend):
         return self._items_by_id.pop(id)
 
     @save_after
-    def complete_item(self, id: str):
-        self._items_by_id[id].status = "DONE"
+    def set_status(self, id: str, status: Status):
+        self._items_by_id[id].status = status
 
-    @save_after
-    def uncomplete_item(self, id: str):
-        self._items_by_id[id].status = "TO DO"
+    def serialisable_items(self) -> Dict:
+        return {id: serialisable_item(item) for id, item in self._items_by_id.items()}
 
     def save(self):
-        session["_items_by_id"] = self._items_by_id
+        session["_items_by_id"] = self.serialisable_items()
         session["_next_item_id"] = self._next_item_id
 
     @classmethod
@@ -59,5 +62,9 @@ class SessionItems(ItemsBackend):
         items_by_id_as_strings: Dict[str, Dict[str, str]] = session.get("_items_by_id")
         items_by_id = {}
         for key, value in items_by_id_as_strings.items():
-            items_by_id[key] = Item(value["status"], value["title"])
+            items_by_id[key] = Item(Status(value["status"]), value["title"])
         return cls(items_by_id=items_by_id, next_item_id=next_item_id)
+
+
+def serialisable_item(item: Item) -> Dict:
+    return {"title": item.title, "status": item.status.value}
