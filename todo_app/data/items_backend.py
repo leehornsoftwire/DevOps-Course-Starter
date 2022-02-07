@@ -18,6 +18,9 @@ class Item:
 
 
 class ItemsBackend:
+    def get_name(self) -> str:
+        pass
+
     def load() -> ItemsBackend:
         pass
 

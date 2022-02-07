@@ -26,6 +26,14 @@ def trello_backend(monkeypatch):
     monkeypatch.setattr(todo_app.app, "session", {"ItemBackend": "Trello"})
 
 
+def get_cards_for_lists_from_url(cards, url):
+    match = re.match("https://api.trello.com/1/lists/(listid[0-9]+)/cards", url)
+    if match:
+        list_id = match.group(1)
+        return [card for card in cards if card["idList"] == list_id]
+    else:
+        raise ArgumentError(f"Invalid URL {url}")
+
 def request_mock(lists, cards):
     def request(method, url, params):
         assert method == "get"
@@ -36,12 +44,8 @@ def request_mock(lists, cards):
 
         ret = return_table.get(url)
         if ret is None:
-            match = re.match("https://api.trello.com/1/lists/(listid[0-9]+)/cards", url)
-            if match:
-                list_id = match.group(1)
-                ret = [card for card in cards if card["idList"] == list_id]
-            else:
-                raise ArgumentError(f"Invalid URL {url}")
+            ret = get_cards_for_lists_from_url(cards, url)
+
         mock_response = MagicMock()
         mock_response.json.return_value = ret
         return mock_response
@@ -58,12 +62,11 @@ def mock_requests_default(monkeypatch):
     ]
     cards = [
         {"id": "cardid123", "name": "Test Card 1", "idList": "listid123"},
-        {"id": "cardid123", "name": "Test Card 1", "idList": "listid123"},
     ]
     monkeypatch.setattr(requests, "request", request_mock(lists, cards))
 
 
-def test_index(monkeypatch, trello_backend, test_client, mock_requests_default):
+def test_index(trello_backend, test_client, mock_requests_default):
     response = test_client.get("/")
     assert response.status == "200 OK"
     response_as_str = str(response.data)

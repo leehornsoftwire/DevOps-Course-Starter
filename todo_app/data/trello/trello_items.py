@@ -26,6 +26,9 @@ class TrelloItems(ItemsBackend):
     key: str
     board_id: str
 
+    def get_name(self) -> str:
+        return "Trello"
+
     @classmethod
     def load_environment(cls) -> ItemsBackend:
         app_token = os.environ["TRELLO_TOKEN"]

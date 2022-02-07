@@ -26,6 +26,9 @@ class SessionItems(ItemsBackend):
         self._items_by_id = items_by_id
         self._next_item_id = next_item_id
 
+    def get_name(self) -> str:
+        return "Session"
+
     def get_items(self) -> Dict[str, Item]:
         return self._items_by_id
 

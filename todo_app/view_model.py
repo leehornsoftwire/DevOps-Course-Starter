@@ -9,7 +9,7 @@ class ViewModel:
         self.Status = Status  # so the enum can be accessed from the template - imports cannot be used
 
     def get_item_backend_name(self) -> str:
-        return type(self.items_backend).__name__
+        return self.items_backend.get_name()
 
     def todo_items(self) -> Dict[str, Item]:
         return self.items_backend.get_items_by_status(Status.TODO)
