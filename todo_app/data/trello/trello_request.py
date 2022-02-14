@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import dataclasses
 from dataclasses import dataclass
 from typing import Dict
@@ -20,10 +18,10 @@ class TrelloRequest:
         url = BASE_URL
         return cls(params, url)
 
-    def with_url(self, relative: str) -> TrelloRequest:
+    def with_url(self, relative: str) -> "TrelloRequest":
         return dataclasses.replace(self, url=f"{self.url}/{relative}")
 
-    def with_params(self, extra_params: Dict[str, str]) -> TrelloRequest:
+    def with_params(self, extra_params: Dict[str, str]) -> "TrelloRequest":
         return dataclasses.replace(self, params={**extra_params, **self.params})
 
     def get(self) -> requests.Response:

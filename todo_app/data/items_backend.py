@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict
@@ -21,7 +19,7 @@ class ItemsBackend:
     def get_name(self) -> str:
         pass
 
-    def load() -> ItemsBackend:
+    def load() -> "ItemsBackend":
         pass
 
     def get_items(self) -> Dict[str, Item]:
