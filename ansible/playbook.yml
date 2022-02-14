@@ -9,7 +9,7 @@
           - name: Create todo_app folder
             file:
                 state: directory
-                path: ~/todoapp
+                path: ~/todo_app
           - name: Copy across dotenv file
             copy:
                 src: ../deployment_files/.env
