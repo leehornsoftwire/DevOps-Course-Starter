@@ -2,13 +2,6 @@
 - name: Test
   hosts: hosts
   remote_user: ec2-user
-  vars_prompt:
-        - name: secret_key
-          prompt: enter Flask Secret Key
-        - name: trello_token
-          prompt: Enter Trello Token
-        - name: trello_board
-          prompt: Enter Trello Board ID
   tasks:
           - name: Install python3
             yum:
