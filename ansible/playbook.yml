@@ -14,8 +14,8 @@
             yum:
                     name: python3
           - name: Copy across dotenv file
-            template:
-                src: ../deployment_files/.env.j2
+            copy:
+                src: ../deployment_files/.env
                 dest: ~/todo_app/.env
             register: dotenv_result
           - name: Copy across wheel file
