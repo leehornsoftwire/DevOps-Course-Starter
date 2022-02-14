@@ -60,3 +60,10 @@ How to run:
  - unit tests: poetry run pytest tests/unit
  - integration tests: poetry run pytest tests/integration
  - e2e tests: poetry run behave
+
+
+## Running on a remote host using ansible
+Steps:
+Run `poetry build` to build the project
+Run `poetry run python scripts/generate_env.py` and enter values for environment variables needed on the remote host
+run `ansible playbook -i ansible/inventory ansible/playbook.yml`
