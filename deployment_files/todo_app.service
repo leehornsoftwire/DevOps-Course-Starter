@@ -2,6 +2,6 @@
 description=Todo app service
 
 [Service]
-ExecStart=/home/ec2-user/todo_app/run_server.sh
-WorkingDirectory=/home/ec2-user/todo_app
+ExecStart=/opt/todoapp/run_server.sh
+WorkingDirectory=/opt/todoapp
 User=ec2-user

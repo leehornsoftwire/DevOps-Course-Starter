@@ -10,21 +10,21 @@
           - name: Create todo_app folder
             file:
                 state: directory
-                path: ~/todo_app
+                path: /opt/todoapp
           - name: Copy across dotenv file
             copy:
                 src: ../deployment_files/.env
-                dest: ~/todo_app/.env
+                dest: /opt/todoapp/.env
             register: dotenv_result
           - name: Copy across wheel file
             copy:
                     src: ../dist/todo_app-0.1.0-py3-none-any.whl
-                    dest: ~/todo_app/
+                    dest: /opt/todoapp/
             register: wheel_result
           - name: Copy across todo_app scripts
             copy:
                     src: "../deployment_files/{{ item }}"
-                    dest: ~/todo_app/
+                    dest: /opt/todoapp/
                     mode: "ugo+rx"
             with_items:
                     - "install.sh"
@@ -38,8 +38,8 @@
             register: service_result
           - name: install todo_app
             command:
-                    cmd: "~/todo_app/install.sh"
-                    chdir: "~/todo_app"
+                    cmd: "/opt/todoapp/install.sh"
+                    chdir: "/opt/todoapp"
             when: wheel_result.changed or todo_app_result.changed
           - name: Reload the service file
             command:
