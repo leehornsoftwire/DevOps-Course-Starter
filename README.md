@@ -1,28 +1,9 @@
 # DevOps Apprenticeship: Project Exercise
 
-## System Requirements
+## Setup
+run `source scripts/setup-apt.sh` or `source scripts/setup-yum.sh` depending on your package manager. 
+If you use another package manager, check the scripts for dependencies needed.s
 
-The project uses poetry for Python to create an isolated environment and manage package dependencies. To prepare your system, ensure you have an official distribution of Python version 3.7+ and install Poetry using one of the following commands (as instructed by the [poetry documentation](https://python-poetry.org/docs/#system-requirements)):
-
-### Poetry installation (Bash)
-
-```bash
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
-```
-
-### Poetry installation (PowerShell)
-
-```powershell
-(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
-```
-
-## Dependencies
-
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
-
-```bash
-$ poetry install
-```
 
 You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
@@ -64,6 +45,5 @@ How to run:
 
 ## Running on a remote host using ansible
 Steps:
-Run `poetry build` to build the project
-Run `poetry run python scripts/generate_env.py` and enter values for environment variables needed on the remote host
-run `ansible playbook -i ansible/inventory ansible/playbook.yml`
+Run `poetry run python scripts/generate_env.py` and enter values for environment variables needed on the remote host (first time only)
+Run `scripts/deploy.sh`

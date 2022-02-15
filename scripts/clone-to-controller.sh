@@ -1,5 +1,4 @@
-
-
+#!/bin/bash -e
 CURRENT_DIR=$(pwd)
 TEMP=$(mktemp -d)
 git clone file://$CURRENT_DIR --depth 1 $TEMP

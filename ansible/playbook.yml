@@ -11,6 +11,8 @@
             file:
                 state: directory
                 path: /opt/todoapp
+                owner: ec2-user
+            become: true
           - name: Copy across dotenv file
             copy:
                 src: ../deployment_files/.env
