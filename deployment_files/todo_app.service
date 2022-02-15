@@ -1,0 +1,7 @@
+[Unit]
+description=Todo app service
+
+[Service]
+ExecStart=/opt/todoapp/run_server.sh
+WorkingDirectory=/opt/todoapp
+User=ec2-user
