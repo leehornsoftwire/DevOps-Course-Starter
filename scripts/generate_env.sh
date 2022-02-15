@@ -1,0 +1,1 @@
+poetry run python scripts/generate_env.py
