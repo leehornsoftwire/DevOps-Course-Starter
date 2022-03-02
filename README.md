@@ -2,7 +2,7 @@
 
 ## Setup
 run `source scripts/setup-apt.sh` or `source scripts/setup-yum.sh` depending on your package manager. 
-If you use another package manager, check the scripts for dependencies needed.s
+If you use another package manager, check the scripts for dependencies needed.
 
 
 You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
