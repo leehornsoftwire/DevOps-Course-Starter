@@ -1,0 +1,70 @@
+---
+- name: Test
+  hosts: hosts
+  remote_user: ec2-user
+  tasks:
+    - name: Install python3
+      yum:
+        name: python3 >= 3.7
+      become: true
+    - name: Create todo_app folder
+      file:
+        state: directory
+        path: /opt/todoapp
+        owner: ec2-user
+      become: true
+    - name: Copy across dotenv file
+      copy:
+        src: ../deployment_files/.env
+        dest: /opt/todoapp/.env
+      register: dotenv_result
+    - name: Copy across wheel file
+      copy:
+        src: ../dist/todo_app-0.1.0-py3-none-any.whl
+        dest: /opt/todoapp/
+      register: wheel_result
+    - name: Copy across todo_app scripts
+      copy:
+        src: "../deployment_files/{{ item }}"
+        dest: /opt/todoapp/
+        mode: "ugo+rx"
+      with_items:
+        - "install.sh"
+        - "run_server.sh"
+      register: todo_app_result
+    - name: Copy across service
+      copy:
+        src: ../deployment_files/todo_app.service
+        dest: /etc/systemd/system/
+      become: true
+      register: service_result
+    - name: install todo_app
+      command:
+        cmd: "/opt/todoapp/install.sh"
+        chdir: "/opt/todoapp"
+      when: wheel_result.changed or todo_app_result.changed
+    - name: Reload the service file
+      command:
+        cmd: "systemctl daemon-reload"
+      become: true
+      when: service_result.changed
+    - name: Start the service
+      service:
+        name: todo_app.service
+        state: started
+      become: true
+    - name: Restart the service
+      service:
+        name: todo_app.service
+        state: restarted
+      become: true
+      when: todo_app_result.changed or service_result.changed or wheel_result.changed or dotenv_result
+    - name: Forward port 80 to 8080
+      iptables:
+        table: nat
+        chain: PREROUTING
+        protocol: tcp
+        destination_port: 80
+        jump: REDIRECT
+        to_ports: 8080
+      become: true

@@ -7,16 +7,20 @@ authors = []
 [tool.poetry.dependencies]
 python = "^3.7"
 flask = "^1.1.2"
-python-dotenv = "^0.14.0"
 requests = "^2.26.0"
-pytest = "^6.2.5"
-behave = "^1.2.6"
-selenium = "^4.1.0"
+
+
 more-itertools = "^8.12.0"
-black = "^21.12b0"
-flake8 = "^4.0.1"
+
+Jinja2 = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
+black = "^21.12b0"
+flake8 = "^4.0.1"
+selenium = "^4.1.0"
+python-dotenv = "^0.14.0"
+pytest = "^6.2.5"
+behave = "^1.2.6"
 
 [build-system]
 requires = ["poetry>=0.12"]
