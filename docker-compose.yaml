@@ -1,0 +1,29 @@
+---
+services:
+  todo-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: deployment_files/.env
+    ports:
+      - 8080:8080
+  todo-app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file: deployment_files/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /opt/todoapp/todo_app
+  generate-env:
+    build:
+      context: .
+      dockerfile: Dockerfile.generateenv
+    volumes:
+      - type: bind
+        source: ./deployment_files
+        target: /opt/todoapp/deployment_files
+    

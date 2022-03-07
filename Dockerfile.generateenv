@@ -1,0 +1,6 @@
+FROM python:3.9-slim-bullseye
+ENV PATH="/root/.local/bin:$PATH"
+RUN pip install jinja2>=3.0.3
+WORKDIR /opt/todoapp
+COPY scripts/generate_env.py .
+ENTRYPOINT [ "python", "generate_env.py" ]

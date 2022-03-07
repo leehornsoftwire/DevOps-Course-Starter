@@ -1,6 +1,16 @@
 # DevOps Apprenticeship: Project Exercise
 
-## Setup
+## With docker 
+### Setup 
+run `docker compose run generate-env` to generate a .env file.
+
+### Running the app
+run either 
+1. `docker compose up -d todo-app` to run the app in production mode on port 8080
+1. `docker compose up -d todo-app-dev` to run in development mode on port 5000.
+
+## Without docker
+### Setup
 run `source scripts/setup-apt.sh` or `source scripts/setup-yum.sh` depending on your package manager. 
 If you use another package manager, check the scripts for dependencies needed.
 
@@ -13,7 +23,7 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-## Running the App
+### Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
