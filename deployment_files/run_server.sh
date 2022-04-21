@@ -5,4 +5,5 @@ if [[ ! -f .env ]]; then
 fi
 
 export $(cat .env|xargs)
+export FLASK_ENV=production
 venv/bin/waitress-serve --port=8080 --call "todo_app.app:create_app"

@@ -1,3 +1,3 @@
-#!/bin/bash -e
+#!/bin/sh 
 poetry install
 poetry build
