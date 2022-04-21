@@ -2,7 +2,7 @@
 
 ## With docker 
 ### Setup 
-run `docker compose run generate-env` to generate a .env file.
+run `scripts/generate_env.sh` to generate a .env file.
 
 ### Running the app
 run either 
