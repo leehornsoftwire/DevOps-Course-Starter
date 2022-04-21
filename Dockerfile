@@ -6,6 +6,19 @@ RUN wget -O install-poetry.py https://install.python-poetry.org
 RUN python install-poetry.py -y
 ENV PATH="/root/.local/bin:$PATH"
 
+FROM poetry as development
+WORKDIR /opt/todoapp
+
+ENV FLASK_APP=todo_app/app
+ENV FLASK_ENV=development
+
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+RUN poetry install
+
+COPY scripts scripts
+
+ENTRYPOINT ["/bin/bash", "-c",  "poetry run flask run --host 0.0.0.0"]
 
 FROM poetry as build
 COPY pyproject.toml /srv/todoapp/pyproject.toml
