@@ -44,13 +44,18 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 
 ## Running the tests
-Requirements:
- - e2e tests require geckodriver and Firefox installed and in PATH,
-    as well as valid Trello credentials set in .env
-How to run:
- - unit tests: poetry run pytest tests/unit
- - integration tests: poetry run pytest tests/integration
- - e2e tests: poetry run behave
+With docker:
+    First run `docker compose build todo-app-test`
+    run `scripts/docker-tests.sh` to run unit and integration tests
+    run `scripts/docker-behave.sh` to run e2e tests (requires .env file with valid Trello information)
+Without docker:
+    Requirements:
+    - e2e tests require geckodriver and Firefox installed and in PATH,
+        as well as valid Trello credentials set in .env
+    How to run:
+    - unit tests: poetry run pytest tests/unit
+    - integration tests: poetry run pytest tests/integration
+    - e2e tests: poetry run behave
 
 
 ## Running on a remote host using ansible

@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on:
+  [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Touch the env file 
+      run: touch deployment_files/.env
+    - name: Build the Docker image
+      run: docker compose build todo-app-test
+    - name: Run the unit and integration tests
+      run: docker compose run todo-app-test poetry run pytest tests
+    - name: Run the e2e tests 
+      run: docker compose run -e TRELLO_TOKEN=${{ secrets.TRELLO_TOKEN }} -e TRELLO_KEY=${{ secrets.TRELLO_KEY }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e TRELLO_ORGANIZATION=${{ secrets.TRELLO_ORGANIZATION }} todo-app-test poetry run behave

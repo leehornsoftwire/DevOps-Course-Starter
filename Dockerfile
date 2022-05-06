@@ -27,6 +27,19 @@ COPY todo_app /srv/todoapp/todo_app
 WORKDIR /srv/todoapp
 RUN scripts/build.sh
 
+FROM poetry as test 
+RUN apt-get update
+RUN apt-get -y install firefox-esr
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux32.tar.gz
+RUN tar -xzf geckodriver-v0.31.0-linux32.tar.gz
+RUN mv geckodriver /bin/geckodriver
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+COPY todo_app todo_app
+RUN poetry install
+COPY tests tests
+COPY features features
+COPY .env.test .env.test
 
 FROM python:3.9-slim-bullseye
 ENV FLASK_ENV=production
