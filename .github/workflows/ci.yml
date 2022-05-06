@@ -13,3 +13,5 @@ jobs:
       run: touch deployment_files/.env
     - name: Build the Docker image
       run: docker compose build todo-app-test
+    - name: Run the tests
+      run: docker compose up todo-app-test
