@@ -27,6 +27,15 @@ COPY todo_app /srv/todoapp/todo_app
 WORKDIR /srv/todoapp
 RUN scripts/build.sh
 
+FROM poetry as test 
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+COPY todo_app todo_app
+COPY tests tests
+RUN poetry install
+COPY .env.test .env.test
+
+ENTRYPOINT [ "/bin/bash", "-c", "poetry run pytest tests"]
 
 FROM python:3.9-slim-bullseye
 ENV FLASK_ENV=production

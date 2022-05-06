@@ -17,6 +17,10 @@ services:
       - type: bind
         source: ./todo_app
         target: /opt/todoapp/todo_app
+  todo-app-test:
+    build:
+      context: .
+      target: test
   generate-env:
     build:
       context: .
