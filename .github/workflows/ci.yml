@@ -9,5 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Touch the env file 
+      run: touch deployment_files/.env
     - name: Build the Docker image
       run: docker compose build todo-app-test
